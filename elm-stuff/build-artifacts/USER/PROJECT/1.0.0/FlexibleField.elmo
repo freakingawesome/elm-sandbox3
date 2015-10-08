@@ -12,31 +12,155 @@ Elm.FlexibleField.make = function (_elm) {
    $Basics = Elm.Basics.make(_elm),
    $Effects = Elm.Effects.make(_elm),
    $Html = Elm.Html.make(_elm),
+   $Html$Attributes = Elm.Html.Attributes.make(_elm),
+   $Html$Events = Elm.Html.Events.make(_elm),
    $List = Elm.List.make(_elm),
    $Maybe = Elm.Maybe.make(_elm),
    $Result = Elm.Result.make(_elm),
    $Signal = Elm.Signal.make(_elm);
+   var Cancel = {ctor: "Cancel"};
+   var Save = function (a) {
+      return {ctor: "Save",_0: a};
+   };
+   var ChangeMode = function (a) {
+      return {ctor: "ChangeMode"
+             ,_0: a};
+   };
+   var UpdateTempValue = function (a) {
+      return {ctor: "UpdateTempValue"
+             ,_0: a};
+   };
+   var SetValue = function (a) {
+      return {ctor: "SetValue"
+             ,_0: a};
+   };
+   var Write = {ctor: "Write"};
    var view = F2(function (address,
    model) {
-      return A2($Html.div,
-      _L.fromArray([]),
-      _L.fromArray([$Html.text(model)]));
+      return function () {
+         var _v0 = model.mode;
+         switch (_v0.ctor)
+         {case "Read":
+            return A2($Html.div,
+              _L.fromArray([$Html$Events.onClick(address)(ChangeMode(Write))]),
+              _L.fromArray([$Html.text(model.value)]));
+            case "Write":
+            return A2($Html.div,
+              _L.fromArray([]),
+              _L.fromArray([A2($Html.input,
+                           _L.fromArray([$Html$Attributes.value(A2($Maybe.withDefault,
+                                        "",
+                                        model.tempValue))
+                                        ,A3($Html$Events.on,
+                                        "input",
+                                        $Html$Events.targetValue,
+                                        function ($) {
+                                           return $Signal.message(address)(UpdateTempValue($));
+                                        })]),
+                           _L.fromArray([]))
+                           ,A2($Html.button,
+                           _L.fromArray([A2($Html$Events.onClick,
+                           address,
+                           Save(model.tempValue))]),
+                           _L.fromArray([$Html.text("Save")]))
+                           ,A2($Html.button,
+                           _L.fromArray([A2($Html$Events.onClick,
+                           address,
+                           Cancel)]),
+                           _L.fromArray([$Html.text("Cancel")]))]));}
+         _U.badCase($moduleName,
+         "between lines 58 and 73");
+      }();
    });
-   var update = F2(function (message,
-   model) {
+   var Read = {ctor: "Read"};
+   var init = function (value) {
       return {ctor: "_Tuple2"
-             ,_0: model
-             ,_1: $Effects.none};
-   });
-   var NoOp = {ctor: "NoOp"};
-   var init = function (s) {
-      return {ctor: "_Tuple2"
-             ,_0: s
+             ,_0: {_: {}
+                  ,mode: Read
+                  ,tempValue: $Maybe.Nothing
+                  ,value: value}
              ,_1: $Effects.none};
    };
+   var update = F2(function (message,
+   model) {
+      return function () {
+         var noop = {ctor: "_Tuple2"
+                    ,_0: model
+                    ,_1: $Effects.none};
+         return function () {
+            switch (message.ctor)
+            {case "Cancel":
+               return {ctor: "_Tuple2"
+                      ,_0: _U.replace([["mode",Read]],
+                      model)
+                      ,_1: $Effects.none};
+               case "ChangeMode":
+               switch (message._0.ctor)
+                 {case "Read":
+                    return {ctor: "_Tuple2"
+                           ,_0: _U.replace([["mode",Read]
+                                           ,["tempValue",$Maybe.Nothing]],
+                           model)
+                           ,_1: $Effects.none};
+                    case "Write":
+                    return {ctor: "_Tuple2"
+                           ,_0: _U.replace([["mode",Write]
+                                           ,["tempValue"
+                                            ,$Maybe.Just(model.value)]],
+                           model)
+                           ,_1: $Effects.none};}
+                 break;
+               case "Save":
+               switch (message._0.ctor)
+                 {case "Just":
+                    return {ctor: "_Tuple2"
+                           ,_0: _U.replace([["mode",Read]
+                                           ,["value",message._0._0]
+                                           ,["tempValue",$Maybe.Nothing]],
+                           model)
+                           ,_1: $Effects.none};
+                    case "Nothing":
+                    return {ctor: "_Tuple2"
+                           ,_0: _U.replace([["mode",Read]
+                                           ,["tempValue",$Maybe.Nothing]],
+                           model)
+                           ,_1: $Effects.none};}
+                 break;
+               case "SetValue":
+               return _U.eq(model.mode,
+                 Write) ? {ctor: "_Tuple2"
+                          ,_0: _U.replace([["value"
+                                           ,message._0]],
+                          model)
+                          ,_1: $Effects.none} : noop;
+               case "UpdateTempValue":
+               return {ctor: "_Tuple2"
+                      ,_0: _U.replace([["tempValue"
+                                       ,$Maybe.Just(message._0)]],
+                      model)
+                      ,_1: $Effects.none};}
+            return noop;
+         }();
+      }();
+   });
+   var Model = F3(function (a,
+   b,
+   c) {
+      return {_: {}
+             ,mode: b
+             ,tempValue: c
+             ,value: a};
+   });
    _elm.FlexibleField.values = {_op: _op
+                               ,Model: Model
+                               ,Read: Read
+                               ,Write: Write
                                ,init: init
-                               ,NoOp: NoOp
+                               ,SetValue: SetValue
+                               ,UpdateTempValue: UpdateTempValue
+                               ,ChangeMode: ChangeMode
+                               ,Save: Save
+                               ,Cancel: Cancel
                                ,update: update
                                ,view: view};
    return _elm.FlexibleField.values;
