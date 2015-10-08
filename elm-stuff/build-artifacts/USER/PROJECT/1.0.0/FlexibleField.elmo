@@ -1,0 +1,43 @@
+Elm.FlexibleField = Elm.FlexibleField || {};
+Elm.FlexibleField.make = function (_elm) {
+   "use strict";
+   _elm.FlexibleField = _elm.FlexibleField || {};
+   if (_elm.FlexibleField.values)
+   return _elm.FlexibleField.values;
+   var _op = {},
+   _N = Elm.Native,
+   _U = _N.Utils.make(_elm),
+   _L = _N.List.make(_elm),
+   $moduleName = "FlexibleField",
+   $Basics = Elm.Basics.make(_elm),
+   $Effects = Elm.Effects.make(_elm),
+   $Html = Elm.Html.make(_elm),
+   $List = Elm.List.make(_elm),
+   $Maybe = Elm.Maybe.make(_elm),
+   $Result = Elm.Result.make(_elm),
+   $Signal = Elm.Signal.make(_elm);
+   var view = F2(function (address,
+   model) {
+      return A2($Html.div,
+      _L.fromArray([]),
+      _L.fromArray([$Html.text(model)]));
+   });
+   var update = F2(function (message,
+   model) {
+      return {ctor: "_Tuple2"
+             ,_0: model
+             ,_1: $Effects.none};
+   });
+   var NoOp = {ctor: "NoOp"};
+   var init = function (s) {
+      return {ctor: "_Tuple2"
+             ,_0: s
+             ,_1: $Effects.none};
+   };
+   _elm.FlexibleField.values = {_op: _op
+                               ,init: init
+                               ,NoOp: NoOp
+                               ,update: update
+                               ,view: view};
+   return _elm.FlexibleField.values;
+};
