@@ -32,7 +32,7 @@ update message model =
             (TextValue value, Effects.none)
           IntValue _ ->
             case (toInt value) of
-              Ok i -> (IntValue i, Effects.none)
+              Ok i -> (IntValue (Just i), Effects.none)
               Err msg -> noop
       _ ->
         noop
@@ -53,11 +53,16 @@ getInputField address model =
         ]
         []
     IntValue val ->
-      input
-        [ value <| toString val
-        , on "input" targetValue (Signal.message address << SetValue)
-        , type' "number"
-        , size 5
-        ]
-        []
+      let
+          strVal = case val of
+            Just i -> toString i
+            Nothing -> ""
+      in
+        input
+          [ value strVal
+          , on "input" targetValue (Signal.message address << SetValue)
+          , type' "number"
+          , size 5
+          ]
+          []
     _ -> text "UNKNOWN"

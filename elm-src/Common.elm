@@ -9,9 +9,9 @@ type alias Attribute =
 
 type AttributeValue
   = TextValue String
-  | IntValue Int
-  | FloatValue Int
-  | BoolValue Bool
+  | IntValue (Maybe Int)
+  | FloatValue (Maybe Int)
+  | BoolValue (Maybe Bool)
   | ListValue ListSource ListSelection
 
 type alias ListSource

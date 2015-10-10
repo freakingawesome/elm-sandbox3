@@ -132,7 +132,7 @@ Elm.AttributeValueEditor.make = function (_elm) {
                             {case "Err": return noop;
                                case "Ok":
                                return {ctor: "_Tuple2"
-                                      ,_0: $Common.IntValue(_v5._0)
+                                      ,_0: $Common.IntValue($Maybe.Just(_v5._0))
                                       ,_1: $Effects.none};}
                             _U.badCase($moduleName,
                             "between lines 34 and 37");
@@ -157,17 +157,27 @@ Elm.AttributeValueEditor.make = function (_elm) {
       return function () {
          switch (model.ctor)
          {case "IntValue":
-            return A2($Html.input,
-              _L.fromArray([$Html$Attributes.value($Basics.toString(model._0))
-                           ,A3($Html$Events.on,
-                           "input",
-                           $Html$Events.targetValue,
-                           function ($) {
-                              return $Signal.message(address)(SetValue($));
-                           })
-                           ,$Html$Attributes.type$("number")
-                           ,$Html$Attributes.size(5)]),
-              _L.fromArray([]));
+            return function () {
+                 var strVal = function () {
+                    switch (model._0.ctor)
+                    {case "Just":
+                       return $Basics.toString(model._0._0);
+                       case "Nothing": return "";}
+                    _U.badCase($moduleName,
+                    "between lines 57 and 60");
+                 }();
+                 return A2($Html.input,
+                 _L.fromArray([$Html$Attributes.value(strVal)
+                              ,A3($Html$Events.on,
+                              "input",
+                              $Html$Events.targetValue,
+                              function ($) {
+                                 return $Signal.message(address)(SetValue($));
+                              })
+                              ,$Html$Attributes.type$("number")
+                              ,$Html$Attributes.size(5)]),
+                 _L.fromArray([]));
+              }();
             case "TextValue":
             return A2($Html.input,
               _L.fromArray([$Html$Attributes.value(model._0)
@@ -4474,7 +4484,7 @@ Elm.Main.make = function (_elm) {
    $StartApp = Elm.StartApp.make(_elm),
    $Task = Elm.Task.make(_elm);
    var app = $StartApp.start({_: {}
-                             ,init: $AttributeValueEditor.init($Common.IntValue(666))
+                             ,init: $AttributeValueEditor.init($Common.IntValue($Maybe.Just(666)))
                              ,inputs: _L.fromArray([])
                              ,update: $AttributeValueEditor.update
                              ,view: $AttributeValueEditor.view});

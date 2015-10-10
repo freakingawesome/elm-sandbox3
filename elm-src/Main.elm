@@ -9,7 +9,9 @@ import Common exposing (..)
 app =
   StartApp.start
     -- { init = init <| TextValue "Hello world"
-    { init = init <| IntValue 666
+    { init = init
+        <| IntValue
+        <| Just 666
     , update = update
     , view = view
     , inputs = []

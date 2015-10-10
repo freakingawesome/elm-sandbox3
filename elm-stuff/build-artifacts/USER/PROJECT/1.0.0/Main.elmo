@@ -20,7 +20,7 @@ Elm.Main.make = function (_elm) {
    $StartApp = Elm.StartApp.make(_elm),
    $Task = Elm.Task.make(_elm);
    var app = $StartApp.start({_: {}
-                             ,init: $AttributeValueEditor.init($Common.IntValue(666))
+                             ,init: $AttributeValueEditor.init($Common.IntValue($Maybe.Just(666)))
                              ,inputs: _L.fromArray([])
                              ,update: $AttributeValueEditor.update
                              ,view: $AttributeValueEditor.view});
