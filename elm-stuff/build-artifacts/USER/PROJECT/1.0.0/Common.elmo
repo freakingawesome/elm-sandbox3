@@ -1,0 +1,55 @@
+Elm.Common = Elm.Common || {};
+Elm.Common.make = function (_elm) {
+   "use strict";
+   _elm.Common = _elm.Common || {};
+   if (_elm.Common.values)
+   return _elm.Common.values;
+   var _op = {},
+   _N = Elm.Native,
+   _U = _N.Utils.make(_elm),
+   _L = _N.List.make(_elm),
+   $moduleName = "Common",
+   $Basics = Elm.Basics.make(_elm),
+   $List = Elm.List.make(_elm),
+   $Maybe = Elm.Maybe.make(_elm),
+   $Result = Elm.Result.make(_elm),
+   $Signal = Elm.Signal.make(_elm);
+   var ListValue = F2(function (a,
+   b) {
+      return {ctor: "ListValue"
+             ,_0: a
+             ,_1: b};
+   });
+   var BoolValue = function (a) {
+      return {ctor: "BoolValue"
+             ,_0: a};
+   };
+   var FloatValue = function (a) {
+      return {ctor: "FloatValue"
+             ,_0: a};
+   };
+   var IntValue = function (a) {
+      return {ctor: "IntValue"
+             ,_0: a};
+   };
+   var TextValue = function (a) {
+      return {ctor: "TextValue"
+             ,_0: a};
+   };
+   var Attribute = F3(function (a,
+   b,
+   c) {
+      return {_: {}
+             ,id: a
+             ,name: b
+             ,value: c};
+   });
+   _elm.Common.values = {_op: _op
+                        ,Attribute: Attribute
+                        ,TextValue: TextValue
+                        ,IntValue: IntValue
+                        ,FloatValue: FloatValue
+                        ,BoolValue: BoolValue
+                        ,ListValue: ListValue};
+   return _elm.Common.values;
+};

@@ -6,6 +6,7 @@ import Html.Attributes exposing (value)
 import Html.Events exposing (on, onClick, targetValue)
 import Json.Decode as Json
 import Debug
+import Common
 
 type alias Model =
   { value : String

@@ -92,6 +92,117 @@ Elm.Array.make = function (_elm) {
                        ,foldr: foldr};
    return _elm.Array.values;
 };
+Elm.AttributeValueEditor = Elm.AttributeValueEditor || {};
+Elm.AttributeValueEditor.make = function (_elm) {
+   "use strict";
+   _elm.AttributeValueEditor = _elm.AttributeValueEditor || {};
+   if (_elm.AttributeValueEditor.values)
+   return _elm.AttributeValueEditor.values;
+   var _op = {},
+   _N = Elm.Native,
+   _U = _N.Utils.make(_elm),
+   _L = _N.List.make(_elm),
+   $moduleName = "AttributeValueEditor",
+   $Basics = Elm.Basics.make(_elm),
+   $Common = Elm.Common.make(_elm),
+   $Effects = Elm.Effects.make(_elm),
+   $Html = Elm.Html.make(_elm),
+   $Html$Attributes = Elm.Html.Attributes.make(_elm),
+   $Html$Events = Elm.Html.Events.make(_elm),
+   $List = Elm.List.make(_elm),
+   $Maybe = Elm.Maybe.make(_elm),
+   $Result = Elm.Result.make(_elm),
+   $Signal = Elm.Signal.make(_elm),
+   $String = Elm.String.make(_elm);
+   var update = F2(function (message,
+   model) {
+      return function () {
+         var noop = {ctor: "_Tuple2"
+                    ,_0: model
+                    ,_1: $Effects.none};
+         return function () {
+            switch (message.ctor)
+            {case "SetValue":
+               return function () {
+                    switch (model.ctor)
+                    {case "IntValue":
+                       return function () {
+                            var _v5 = $String.toInt(message._0);
+                            switch (_v5.ctor)
+                            {case "Err": return noop;
+                               case "Ok":
+                               return {ctor: "_Tuple2"
+                                      ,_0: $Common.IntValue(_v5._0)
+                                      ,_1: $Effects.none};}
+                            _U.badCase($moduleName,
+                            "between lines 34 and 37");
+                         }();
+                       case "TextValue":
+                       return {ctor: "_Tuple2"
+                              ,_0: $Common.TextValue(message._0)
+                              ,_1: $Effects.none};}
+                    _U.badCase($moduleName,
+                    "between lines 30 and 37");
+                 }();}
+            return noop;
+         }();
+      }();
+   });
+   var SetValue = function (a) {
+      return {ctor: "SetValue"
+             ,_0: a};
+   };
+   var getInputField = F2(function (address,
+   model) {
+      return function () {
+         switch (model.ctor)
+         {case "IntValue":
+            return A2($Html.input,
+              _L.fromArray([$Html$Attributes.value($Basics.toString(model._0))
+                           ,A3($Html$Events.on,
+                           "input",
+                           $Html$Events.targetValue,
+                           function ($) {
+                              return $Signal.message(address)(SetValue($));
+                           })
+                           ,$Html$Attributes.type$("number")
+                           ,$Html$Attributes.size(5)]),
+              _L.fromArray([]));
+            case "TextValue":
+            return A2($Html.input,
+              _L.fromArray([$Html$Attributes.value(model._0)
+                           ,A3($Html$Events.on,
+                           "input",
+                           $Html$Events.targetValue,
+                           function ($) {
+                              return $Signal.message(address)(SetValue($));
+                           })]),
+              _L.fromArray([]));}
+         return $Html.text("UNKNOWN");
+      }();
+   });
+   var view = F2(function (address,
+   model) {
+      return A2($Html.div,
+      _L.fromArray([]),
+      _L.fromArray([A2(getInputField,
+                   address,
+                   model)
+                   ,$Html.text($Basics.toString(model))]));
+   });
+   var init = function (value) {
+      return {ctor: "_Tuple2"
+             ,_0: value
+             ,_1: $Effects.none};
+   };
+   _elm.AttributeValueEditor.values = {_op: _op
+                                      ,init: init
+                                      ,SetValue: SetValue
+                                      ,update: update
+                                      ,view: view
+                                      ,getInputField: getInputField};
+   return _elm.AttributeValueEditor.values;
+};
 Elm.Basics = Elm.Basics || {};
 Elm.Basics.make = function (_elm) {
    "use strict";
@@ -784,6 +895,61 @@ Elm.Color.make = function (_elm) {
                        ,gray: gray
                        ,darkGray: darkGray};
    return _elm.Color.values;
+};
+Elm.Common = Elm.Common || {};
+Elm.Common.make = function (_elm) {
+   "use strict";
+   _elm.Common = _elm.Common || {};
+   if (_elm.Common.values)
+   return _elm.Common.values;
+   var _op = {},
+   _N = Elm.Native,
+   _U = _N.Utils.make(_elm),
+   _L = _N.List.make(_elm),
+   $moduleName = "Common",
+   $Basics = Elm.Basics.make(_elm),
+   $List = Elm.List.make(_elm),
+   $Maybe = Elm.Maybe.make(_elm),
+   $Result = Elm.Result.make(_elm),
+   $Signal = Elm.Signal.make(_elm);
+   var ListValue = F2(function (a,
+   b) {
+      return {ctor: "ListValue"
+             ,_0: a
+             ,_1: b};
+   });
+   var BoolValue = function (a) {
+      return {ctor: "BoolValue"
+             ,_0: a};
+   };
+   var FloatValue = function (a) {
+      return {ctor: "FloatValue"
+             ,_0: a};
+   };
+   var IntValue = function (a) {
+      return {ctor: "IntValue"
+             ,_0: a};
+   };
+   var TextValue = function (a) {
+      return {ctor: "TextValue"
+             ,_0: a};
+   };
+   var Attribute = F3(function (a,
+   b,
+   c) {
+      return {_: {}
+             ,id: a
+             ,name: b
+             ,value: c};
+   });
+   _elm.Common.values = {_op: _op
+                        ,Attribute: Attribute
+                        ,TextValue: TextValue
+                        ,IntValue: IntValue
+                        ,FloatValue: FloatValue
+                        ,BoolValue: BoolValue
+                        ,ListValue: ListValue};
+   return _elm.Common.values;
 };
 Elm.Debug = Elm.Debug || {};
 Elm.Debug.make = function (_elm) {
@@ -1931,173 +2097,6 @@ Elm.Effects.make = function (_elm) {
                          ,batch: batch
                          ,toTask: toTask};
    return _elm.Effects.values;
-};
-Elm.FlexibleField = Elm.FlexibleField || {};
-Elm.FlexibleField.make = function (_elm) {
-   "use strict";
-   _elm.FlexibleField = _elm.FlexibleField || {};
-   if (_elm.FlexibleField.values)
-   return _elm.FlexibleField.values;
-   var _op = {},
-   _N = Elm.Native,
-   _U = _N.Utils.make(_elm),
-   _L = _N.List.make(_elm),
-   $moduleName = "FlexibleField",
-   $Basics = Elm.Basics.make(_elm),
-   $Effects = Elm.Effects.make(_elm),
-   $Html = Elm.Html.make(_elm),
-   $Html$Attributes = Elm.Html.Attributes.make(_elm),
-   $Html$Events = Elm.Html.Events.make(_elm),
-   $List = Elm.List.make(_elm),
-   $Maybe = Elm.Maybe.make(_elm),
-   $Result = Elm.Result.make(_elm),
-   $Signal = Elm.Signal.make(_elm);
-   var Cancel = {ctor: "Cancel"};
-   var Save = function (a) {
-      return {ctor: "Save",_0: a};
-   };
-   var ChangeMode = function (a) {
-      return {ctor: "ChangeMode"
-             ,_0: a};
-   };
-   var UpdateTempValue = function (a) {
-      return {ctor: "UpdateTempValue"
-             ,_0: a};
-   };
-   var SetValue = function (a) {
-      return {ctor: "SetValue"
-             ,_0: a};
-   };
-   var Write = {ctor: "Write"};
-   var view = F2(function (address,
-   model) {
-      return function () {
-         var _v0 = model.mode;
-         switch (_v0.ctor)
-         {case "Read":
-            return A2($Html.div,
-              _L.fromArray([$Html$Events.onClick(address)(ChangeMode(Write))]),
-              _L.fromArray([$Html.text(model.value)]));
-            case "Write":
-            return A2($Html.div,
-              _L.fromArray([]),
-              _L.fromArray([A2($Html.input,
-                           _L.fromArray([$Html$Attributes.value(A2($Maybe.withDefault,
-                                        "",
-                                        model.tempValue))
-                                        ,A3($Html$Events.on,
-                                        "input",
-                                        $Html$Events.targetValue,
-                                        function ($) {
-                                           return $Signal.message(address)(UpdateTempValue($));
-                                        })]),
-                           _L.fromArray([]))
-                           ,A2($Html.button,
-                           _L.fromArray([A2($Html$Events.onClick,
-                           address,
-                           Save(model.tempValue))]),
-                           _L.fromArray([$Html.text("Save")]))
-                           ,A2($Html.button,
-                           _L.fromArray([A2($Html$Events.onClick,
-                           address,
-                           Cancel)]),
-                           _L.fromArray([$Html.text("Cancel")]))]));}
-         _U.badCase($moduleName,
-         "between lines 58 and 73");
-      }();
-   });
-   var Read = {ctor: "Read"};
-   var init = function (value) {
-      return {ctor: "_Tuple2"
-             ,_0: {_: {}
-                  ,mode: Read
-                  ,tempValue: $Maybe.Nothing
-                  ,value: value}
-             ,_1: $Effects.none};
-   };
-   var update = F2(function (message,
-   model) {
-      return function () {
-         var noop = {ctor: "_Tuple2"
-                    ,_0: model
-                    ,_1: $Effects.none};
-         return function () {
-            switch (message.ctor)
-            {case "Cancel":
-               return {ctor: "_Tuple2"
-                      ,_0: _U.replace([["mode",Read]],
-                      model)
-                      ,_1: $Effects.none};
-               case "ChangeMode":
-               switch (message._0.ctor)
-                 {case "Read":
-                    return {ctor: "_Tuple2"
-                           ,_0: _U.replace([["mode",Read]
-                                           ,["tempValue",$Maybe.Nothing]],
-                           model)
-                           ,_1: $Effects.none};
-                    case "Write":
-                    return {ctor: "_Tuple2"
-                           ,_0: _U.replace([["mode",Write]
-                                           ,["tempValue"
-                                            ,$Maybe.Just(model.value)]],
-                           model)
-                           ,_1: $Effects.none};}
-                 break;
-               case "Save":
-               switch (message._0.ctor)
-                 {case "Just":
-                    return {ctor: "_Tuple2"
-                           ,_0: _U.replace([["mode",Read]
-                                           ,["value",message._0._0]
-                                           ,["tempValue",$Maybe.Nothing]],
-                           model)
-                           ,_1: $Effects.none};
-                    case "Nothing":
-                    return {ctor: "_Tuple2"
-                           ,_0: _U.replace([["mode",Read]
-                                           ,["tempValue",$Maybe.Nothing]],
-                           model)
-                           ,_1: $Effects.none};}
-                 break;
-               case "SetValue":
-               return _U.eq(model.mode,
-                 Write) ? {ctor: "_Tuple2"
-                          ,_0: _U.replace([["value"
-                                           ,message._0]],
-                          model)
-                          ,_1: $Effects.none} : noop;
-               case "UpdateTempValue":
-               return {ctor: "_Tuple2"
-                      ,_0: _U.replace([["tempValue"
-                                       ,$Maybe.Just(message._0)]],
-                      model)
-                      ,_1: $Effects.none};}
-            return noop;
-         }();
-      }();
-   });
-   var Model = F3(function (a,
-   b,
-   c) {
-      return {_: {}
-             ,mode: b
-             ,tempValue: c
-             ,value: a};
-   });
-   _elm.FlexibleField.values = {_op: _op
-                               ,Model: Model
-                               ,Read: Read
-                               ,Write: Write
-                               ,init: init
-                               ,SetValue: SetValue
-                               ,UpdateTempValue: UpdateTempValue
-                               ,ChangeMode: ChangeMode
-                               ,Save: Save
-                               ,Cancel: Cancel
-                               ,update: update
-                               ,view: view};
-   return _elm.FlexibleField.values;
 };
 Elm.Graphics = Elm.Graphics || {};
 Elm.Graphics.Collage = Elm.Graphics.Collage || {};
@@ -4464,9 +4463,10 @@ Elm.Main.make = function (_elm) {
    _U = _N.Utils.make(_elm),
    _L = _N.List.make(_elm),
    $moduleName = "Main",
+   $AttributeValueEditor = Elm.AttributeValueEditor.make(_elm),
    $Basics = Elm.Basics.make(_elm),
+   $Common = Elm.Common.make(_elm),
    $Effects = Elm.Effects.make(_elm),
-   $FlexibleField = Elm.FlexibleField.make(_elm),
    $List = Elm.List.make(_elm),
    $Maybe = Elm.Maybe.make(_elm),
    $Result = Elm.Result.make(_elm),
@@ -4474,10 +4474,10 @@ Elm.Main.make = function (_elm) {
    $StartApp = Elm.StartApp.make(_elm),
    $Task = Elm.Task.make(_elm);
    var app = $StartApp.start({_: {}
-                             ,init: $FlexibleField.init("Hello world")
+                             ,init: $AttributeValueEditor.init($Common.IntValue(666))
                              ,inputs: _L.fromArray([])
-                             ,update: $FlexibleField.update
-                             ,view: $FlexibleField.view});
+                             ,update: $AttributeValueEditor.update
+                             ,view: $AttributeValueEditor.view});
    var main = app.html;
    var tasks = Elm.Native.Task.make(_elm).performSignal("tasks",
    app.tasks);

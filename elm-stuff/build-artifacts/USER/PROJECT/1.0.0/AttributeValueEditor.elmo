@@ -1,0 +1,111 @@
+Elm.AttributeValueEditor = Elm.AttributeValueEditor || {};
+Elm.AttributeValueEditor.make = function (_elm) {
+   "use strict";
+   _elm.AttributeValueEditor = _elm.AttributeValueEditor || {};
+   if (_elm.AttributeValueEditor.values)
+   return _elm.AttributeValueEditor.values;
+   var _op = {},
+   _N = Elm.Native,
+   _U = _N.Utils.make(_elm),
+   _L = _N.List.make(_elm),
+   $moduleName = "AttributeValueEditor",
+   $Basics = Elm.Basics.make(_elm),
+   $Common = Elm.Common.make(_elm),
+   $Effects = Elm.Effects.make(_elm),
+   $Html = Elm.Html.make(_elm),
+   $Html$Attributes = Elm.Html.Attributes.make(_elm),
+   $Html$Events = Elm.Html.Events.make(_elm),
+   $List = Elm.List.make(_elm),
+   $Maybe = Elm.Maybe.make(_elm),
+   $Result = Elm.Result.make(_elm),
+   $Signal = Elm.Signal.make(_elm),
+   $String = Elm.String.make(_elm);
+   var update = F2(function (message,
+   model) {
+      return function () {
+         var noop = {ctor: "_Tuple2"
+                    ,_0: model
+                    ,_1: $Effects.none};
+         return function () {
+            switch (message.ctor)
+            {case "SetValue":
+               return function () {
+                    switch (model.ctor)
+                    {case "IntValue":
+                       return function () {
+                            var _v5 = $String.toInt(message._0);
+                            switch (_v5.ctor)
+                            {case "Err": return noop;
+                               case "Ok":
+                               return {ctor: "_Tuple2"
+                                      ,_0: $Common.IntValue(_v5._0)
+                                      ,_1: $Effects.none};}
+                            _U.badCase($moduleName,
+                            "between lines 34 and 37");
+                         }();
+                       case "TextValue":
+                       return {ctor: "_Tuple2"
+                              ,_0: $Common.TextValue(message._0)
+                              ,_1: $Effects.none};}
+                    _U.badCase($moduleName,
+                    "between lines 30 and 37");
+                 }();}
+            return noop;
+         }();
+      }();
+   });
+   var SetValue = function (a) {
+      return {ctor: "SetValue"
+             ,_0: a};
+   };
+   var getInputField = F2(function (address,
+   model) {
+      return function () {
+         switch (model.ctor)
+         {case "IntValue":
+            return A2($Html.input,
+              _L.fromArray([$Html$Attributes.value($Basics.toString(model._0))
+                           ,A3($Html$Events.on,
+                           "input",
+                           $Html$Events.targetValue,
+                           function ($) {
+                              return $Signal.message(address)(SetValue($));
+                           })
+                           ,$Html$Attributes.type$("number")
+                           ,$Html$Attributes.size(5)]),
+              _L.fromArray([]));
+            case "TextValue":
+            return A2($Html.input,
+              _L.fromArray([$Html$Attributes.value(model._0)
+                           ,A3($Html$Events.on,
+                           "input",
+                           $Html$Events.targetValue,
+                           function ($) {
+                              return $Signal.message(address)(SetValue($));
+                           })]),
+              _L.fromArray([]));}
+         return $Html.text("UNKNOWN");
+      }();
+   });
+   var view = F2(function (address,
+   model) {
+      return A2($Html.div,
+      _L.fromArray([]),
+      _L.fromArray([A2(getInputField,
+                   address,
+                   model)
+                   ,$Html.text($Basics.toString(model))]));
+   });
+   var init = function (value) {
+      return {ctor: "_Tuple2"
+             ,_0: value
+             ,_1: $Effects.none};
+   };
+   _elm.AttributeValueEditor.values = {_op: _op
+                                      ,init: init
+                                      ,SetValue: SetValue
+                                      ,update: update
+                                      ,view: view
+                                      ,getInputField: getInputField};
+   return _elm.AttributeValueEditor.values;
+};

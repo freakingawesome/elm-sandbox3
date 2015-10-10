@@ -9,9 +9,10 @@ Elm.Main.make = function (_elm) {
    _U = _N.Utils.make(_elm),
    _L = _N.List.make(_elm),
    $moduleName = "Main",
+   $AttributeValueEditor = Elm.AttributeValueEditor.make(_elm),
    $Basics = Elm.Basics.make(_elm),
+   $Common = Elm.Common.make(_elm),
    $Effects = Elm.Effects.make(_elm),
-   $FlexibleField = Elm.FlexibleField.make(_elm),
    $List = Elm.List.make(_elm),
    $Maybe = Elm.Maybe.make(_elm),
    $Result = Elm.Result.make(_elm),
@@ -19,10 +20,10 @@ Elm.Main.make = function (_elm) {
    $StartApp = Elm.StartApp.make(_elm),
    $Task = Elm.Task.make(_elm);
    var app = $StartApp.start({_: {}
-                             ,init: $FlexibleField.init("Hello world")
+                             ,init: $AttributeValueEditor.init($Common.IntValue(666))
                              ,inputs: _L.fromArray([])
-                             ,update: $FlexibleField.update
-                             ,view: $FlexibleField.view});
+                             ,update: $AttributeValueEditor.update
+                             ,view: $AttributeValueEditor.view});
    var main = app.html;
    var tasks = Elm.Native.Task.make(_elm).performSignal("tasks",
    app.tasks);
